@@ -1,3 +1,4 @@
+#include<SPI.h>
 const int ledPin = 13; // the pin that the LED is attached to
 void setup() {  
   //initialize serial commm. Serial is global
@@ -15,5 +16,6 @@ void loop() {
     int brightness = Serial.parseInt();
     Serial.print(brightness);
     digitalWrite(ledPin,1);
+    
   }  
 }
