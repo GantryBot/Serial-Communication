@@ -13,11 +13,13 @@ public:
     void openSerialPort();
     void closeSerialPort();
     void writeData(const QByteArray &data);
-    void readData();
+
 public slots:
     void handleError(QSerialPort::SerialPortError error);
+    void readData();
 private:
     QSerialPort *serial;
+    QString port_name;
 };
 
 #endif // SERIALCOM_H
