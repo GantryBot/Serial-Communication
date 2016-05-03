@@ -19,11 +19,11 @@ private slots:
 
     void on_red_horizontalSlider_valueChanged(int value);
 
+    void on_green_horizontalSlider_2_valueChanged(int value);
+
+    void on_blue_horizontalSlider_3_valueChanged(int value);
+
     void updateRGB(QString);
-
-    void on_negative_x_clicked();
-
-    void on_positive_x_clicked();
 
 private:
     Ui::Dialog *ui;
