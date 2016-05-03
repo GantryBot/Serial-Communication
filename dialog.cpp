@@ -40,29 +40,16 @@ Dialog::Dialog(QWidget *parent) :
         if(arduino_is_available) {
             //open and configure port
             ardunio->setPortName(arduino_port_name);
-            if(!ardunio->open(QSerialPort::WriteOnly)){
-                qDebug() << QString("Error code is : %1").arg(ardunio->errorString());
-            }
-            if(!ardunio->setBaudRate(QSerialPort::Baud9600)){
-                qDebug() << QString("Error code is : %1").arg(ardunio->errorString());
-            }
-            if(!ardunio->setDataBits(QSerialPort::Data8)) {
-                qDebug() << QString("Error code is : %1").arg(ardunio->errorString());
-            }
-            if(!ardunio->setParity(QSerialPort::NoParity)) {
-                qDebug() << QString("Error code is : %1").arg(ardunio->errorString());
-            }
-            if(!ardunio->setStopBits(QSerialPort::OneStop)) {
-                qDebug() << QString("Error code is : %1").arg(ardunio->errorString());
-            }
-            if(!ardunio->setFlowControl(QSerialPort::NoFlowControl)) {
-                qDebug() << QString("Error code is : %1").arg(ardunio->errorString());
-            }
+            ardunio->open(QSerialPort::WriteOnly);
+            ardunio->setBaudRate(QSerialPort::Baud9600);
+            ardunio->setDataBits(QSerialPort::Data8);
+            ardunio->setParity(QSerialPort::NoParity);
+            ardunio->setStopBits(QSerialPort::OneStop);
+            ardunio->setFlowControl(QSerialPort::NoFlowControl);
 
         } else {
             //give error message
             QMessageBox::warning(this,"Port error", "could't find the ardunio");
-            qDebug() << QString("Error code is : %1").arg(ardunio->errorString());
         }
 
     }
@@ -77,14 +64,23 @@ Dialog::~Dialog()
     delete ui;
 }
 
-void Dialog::on_negative_x_clicked()
+void Dialog::on_red_horizontalSlider_valueChanged(int value)
 {
-    Dialog::updateRGB(QString("r%1").arg(value));
+   ui->red_label->setText(QString("%1").arg(value));
+   Dialog::updateRGB(QString("r%1").arg(value));
+}
+
+void Dialog::on_green_horizontalSlider_2_valueChanged(int value)
+{
+    ui->green_label->setText(QString("%1").arg(value));
+    Dialog::updateRGB(QString("g%1").arg(value));
 
 }
 
-void Dialog::on_positive_x_clicked()
+void Dialog::on_blue_horizontalSlider_3_valueChanged(int value)
 {
+    ui->blue_label->setText(QString("%1").arg(value));
+    Dialog::updateRGB(QString("b%1").arg(value));
 
 }
 
@@ -94,8 +90,5 @@ void Dialog::updateRGB(QString command)
         ardunio->write(command.toStdString().c_str());
     } else {
         qDebug() << "Could't write to serial!";
-        qDebug() << QString("Error code is : %1").arg(ardunio->errorString());
-
     }
 }
-
