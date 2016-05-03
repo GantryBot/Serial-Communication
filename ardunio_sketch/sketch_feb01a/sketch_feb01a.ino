@@ -1,33 +1,38 @@
-#include <PrintCascade.h>
-#include <SerialDebug.h>
-#include<SPI.h>
-const int ledPin = 13; // the pin that the LED is attached to
-#define debug true;
-void setup() {  
-  //initialize serial commm. Serial is global
+#define red_led 11
+#define green_led 9
+#define blue_led 10
+
+void setup()
+{
+  pinMode(red_led, OUTPUT);
+  pinMode(green_led, OUTPUT);
+  pinMode(blue_led, OUTPUT);
   Serial.begin(9600);
+}
 
-if(debug){
-  SerialDebugger.begin(9600);
-  SerialDebugger.enable(Error);
-  SerialDebugger.enable(NOTIFICATION);
+void loop()
+{
+  if (Serial.available()){
+    char led_specifier = Serial.read();
+    int led_brightness = Serial.parseInt();
+    write_leds(led_specifier, led_brightness);
   }
-
-  // initialize the ledPin as an output:
-  pinMode(ledPin,OUTPUT);
-  digitalWrite(ledPin, 0);
 }
 
-void loop() {  
-//   check if data has been sent from the computer:
-  if(Serial.available() > 0){
-    // read the most recent byte (which will be from 0 to 255):
-    digitalWrite(ledPin,1); 
-    String request=Serial.readString();
-    Serial.println(request);
-    delay(20000);
-    digitalWrite(ledPin,0); 
-      
-  } 
+void write_leds(char led, int brightness)
+{
+  if (led == 'r'){
+    analogWrite(red_led, brightness);
+    return;
+  }
+  if (led == 'g'){
+    analogWrite(green_led, brightness);
+    return;
+  }
+  if (led == 'b'){
+    analogWrite(blue_led, brightness);
+    return;
+  }
+  
+  return;
 }
-
